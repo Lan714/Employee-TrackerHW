@@ -1,0 +1,18 @@
+DROP DATABASE IF EXISTS tracker_db;
+
+CREATE DATABASE tracker_db;
+
+CREATE TABLE departments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(25) UNIQUE NOT NULL
+);
+
+CREATE TABLE roles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(50) UNIQUE NOT NULL,
+  salary INT NOT NULL,
+  department_id INT NOT NULL,
+  FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE
+);
+
+CREATE 
