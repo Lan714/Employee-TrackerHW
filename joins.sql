@@ -17,9 +17,8 @@ ON roles.department_id = department_id;
 
 USE tracker_db;
 SELECT CONCAT(employees.first, ' ', employees.last) AS name,
-roles.name AS role,
-subjects.title,
-subjects.salary,
+roles.title,
+roles.salary,
 departments.name AS department,
 CONCAT(manager.first, ' ', manager.last) AS manager
 FROM employees
