@@ -13,7 +13,7 @@ const init = () => {
       choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees', 'Update Employees']
     }
   ])
-  .then(({action})) => {
+  .then(({ action }) => {
     switch (action) {
       case 'Add Department':
         addDepartment()
@@ -69,7 +69,7 @@ const addRole = () => {
       message: 'Role Title:',
     },
     {
-      type: 'number'
+      type: 'number',
       name: 'salary',
       message: 'Role Salary:'
     },
@@ -103,7 +103,7 @@ const addEmployee = () => {
     },
     {
       type: 'number',
-      name: 'role_id',
+      name: 'roles_id',
       message: `Employee's Role ID`,
     },
     {
@@ -120,7 +120,7 @@ const addEmployee = () => {
 
       db.query('INSERT INTO employees SET ?', newEmp, err => {
         if (err) { console.log(err) }
-        else { console.log(`-----${newEmp.first.name} has been added-----` ) }
+        else { console.log(`-----${newEmp.first_name.name} has been added-----` ) }
         init()
       })
     })
@@ -135,14 +135,14 @@ const viewDepartments = () => {
 }
 
 const viewRoles = () => {
-  db.query('SELECT roles.id, role.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => { 
+  db.query('SELECT roles.id, roles.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => { 
     console.table(roles)
     init()
   })
 }
 
 const viewEmployees = () => {
-  db.query('SELECT employees.id, CONCAT(employees.first, ' ', employees.last) AS name, roles.title,roles.salary, departments.name AS department, CONCAT(manager.first, ' ', manager.last) AS manager FROM employees LEFT JOIN roles ON employees.roles_id = roles_id LEFT JOIN departments ON roles.department_id = department_id LEFT JOIN employees manager ON manager.id = employees.manager_id', (err, employees) =>
+  db.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.title, roles.salary, departments.name AS 'department', CONCAT(manager.first_name, ' ', manager.last_name) AS 'manager' FROM employees LEFT JOIN roles ON employees.roles_id = roles_id LEFT JOIN departments ON roles.department_id = department_id LEFT JOIN employees manager ON manager.id = employees.manager_id`, (err, employees) => {
   console.table(employees)
   init()
 })
@@ -162,8 +162,8 @@ const updateEmployee = () => {
           }))
         },
         {
-          type: 'list'
-          name: 'role_id',
+          type: 'list',
+          name: 'roles_id',
           message: `Employee's New Role: `,
           choices: roles.map(role => ({
             name: role.title,
@@ -185,7 +185,7 @@ const updateEmployee = () => {
           manager_id,
           role_id
         }
-        db.query(`UPATE employees SET ? WHERE ?`, [update, { id }], => {
+        db.query(`UPATE employees SET ? WHERE ?`, [update, { id }], err => {
           if (err) { console.log(err) }
           else { console.log(`Employee has been updated`)}
           init()
