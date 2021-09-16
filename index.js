@@ -61,18 +61,99 @@ const addDepartment = () => {
   .catch(err => console.log(err))
 }
 
+const addRole = () => {
+  prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Role Title:',
+    },
+    {
+      type: 'number'
+      name: 'salary',
+      message: 'Role Salary:'
+    },
+    {
+      type: 'input',
+      name: 'department_id',
+      message: 'Role Department_id:'
+    }
+  ])
+    .then(newRole => {
+      db.query('INSERT INTO roles SET ?', newRole, err => {
+        if(err) { console.log(err) }
+        else { console.log(`-------${newRole.title} role has been added------`) }
+        init()
+      })
+    })
+    .catch(err => console.log(err))
+}
+
+const addEmployee = () => {
+  prompt([
+    {
+      type: 'input',
+      name: 'first_name',
+      message: `Employee's First Name`,
+    },
+    {
+      type: 'input',
+      name: 'last_name',
+      message: `Employee's Last Name`,
+    },
+    {
+      type: 'number',
+      name: 'role_id',
+      message: `Employee's Role ID`,
+    },
+    {
+      type: 'number',
+      name: 'manager_id',
+      message: `Employee's Manager's ID`,
+    }
+  ])
+    .then(newEmp => {
+      if (!newEmp.manager_id) {
+        delete newEmp.manager_id
+      }
+      console.log(newEmp)
+
+      db.query('INSERT INTO employees SET ?', newEmp, err => {
+        if (err) { console.log(err) }
+        else { console.log(`-----${newEmp.first.name} has been added-----` ) }
+        init()
+      })
+    })
+    .catch(err => console.log(err))
+}
 
 const viewDepartments = () => {
-  db.query('SELECT departments.id, departments.name as department FROM department', (err. departments) => {
+  db.query('SELECT departments.id, departments.name as department FROM departments', (err, departments) => {
     console.table(departments)
+    init()
   })
 }
 
 const viewRoles = () => {
-  db.query('SELECT roles.id, role.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => { console.table(roles)})
+  db.query('SELECT roles.id, role.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => { 
+    console.table(roles)
+    init()
+  })
 }
 
 const viewEmployees = () => {
   db.query('SELECT employees.id, CONCAT(employees.first, ' ', employees.last) AS name, roles.title,roles.salary, departments.name AS department, CONCAT(manager.first, ' ', manager.last) AS manager FROM employees LEFT JOIN roles ON employees.roles_id = roles_id LEFT JOIN departments ON roles.department_id = department_id LEFT JOIN employees manager ON manager.id = employees.manager_id', (err, employees) =>
-  console.table(employees))
+  console.table(employees)
+  init()
+})
+}
+
+const updateEmployee = () => {
+  db.query('SELECT * FROM roles', (err, roles) => {
+    db.query('SELECT * FROM employees', (err, employees) => {
+      prompt([
+        
+      ])
+    })
+  })
 }
