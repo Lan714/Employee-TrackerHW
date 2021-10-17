@@ -1,6 +1,6 @@
 const { prompt } = require('inquirer')
 const { createConnection } = require('mysql2')
-require('console.table')
+const cTable = require('console.table')
 
 const db = createConnection('mysql://root:rootroot@localhost/tracker_db')
 
