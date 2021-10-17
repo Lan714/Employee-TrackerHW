@@ -19,8 +19,10 @@
   "homepage": "https://github.com/Lan714/Employee-TrackerHW#readme",
   "dependencies": {
     "console.table": "^0.10.0",
+    "dotenv": "^10.0.0",
     "inquirer": "^8.1.5",
     "mysql": "^2.18.1",
-    "mysql2": "^2.3.0"
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.7.0"
   }
 }
