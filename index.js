@@ -120,7 +120,7 @@ const addEmployee = () => {
 
       db.query('INSERT INTO employees SET ?', newEmp, err => {
         if (err) { console.log(err) }
-        else { console.log(`-----${newEmp.first_name.name} has been added-----` ) }
+        else { console.log(`-----${newEmp.first_name} has been added-----` ) }
         init()
       })
     })
